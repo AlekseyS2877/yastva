@@ -5,7 +5,7 @@ import Header from "./common/Header";
 import FoodPage from "./FoodPage";
 import { Route, Switch, Redirect } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
-import ManageCoursePage from "./ManageCoursePage";
+import ManageFoodPage from "./ManageFoodPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,10 +16,10 @@ function App() {
       <Header />
       <Switch>
         <Route path="/" exact component={HomePage} />
-        <Route path="/courses" component={FoodPage} />
+        <Route path="/foods" component={FoodPage} />
         <Route path="/about" component={AboutPage} />
-        <Route path="/course/:slug" component={ManageCoursePage} />
-        <Route path="/course" component={ManageCoursePage} />
+        <Route path="/food/:token" component={ManageFoodPage} />
+        <Route path="/food" component={ManageFoodPage} />
         <Redirect from="/about-page" to="about" />
         <Route component={NotFoundPage} />
       </Switch>

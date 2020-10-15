@@ -19,7 +19,7 @@ const router = jsonServer.router(path.join(__dirname, "db.json"));
 // Can pass a limited number of options to this to override (some) defaults. See https://github.com/typicode/json-server#api
 const middlewares = jsonServer.defaults({
   // Display json-server's built in homepage when json-server starts.
-  static: "node_modules/json-server/dist"
+  static: "node_modules/json-server/dist",
 });
 
 // Set default middlewares (logger, static, cors and no-cache)
@@ -29,7 +29,7 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 // Simulate delay on all requests
-server.use(function(req, res, next) {
+server.use(function (req, res, next) {
   setTimeout(next, 0);
 });
 
@@ -44,12 +44,12 @@ server.use((req, res, next) => {
   next();
 });
 
-server.post("/courses/", function(req, res, next) {
-  const error = validateCourse(req.body);
+server.post("/foods/", function (req, res, next) {
+  const error = validateFood(req.body);
   if (error) {
     res.status(400).send(error);
   } else {
-    req.body.slug = createSlug(req.body.title); // Generate a slug for new courses.
+    req.body.token = createtoken(req.body.title); // Generate a token for new foods.
     next();
   }
 });
@@ -65,17 +65,17 @@ server.listen(port, () => {
 
 // Centralized logic
 
-// Returns a URL friendly slug
-function createSlug(value) {
+// Returns a URL friendly token
+function createtoken(value) {
   return value
     .replace(/[^a-z0-9_]+/gi, "-")
     .replace(/^-|-$/g, "")
     .toLowerCase();
 }
 
-function validateCourse(course) {
-  if (!course.title) return "Title is required.";
-  if (!course.authorId) return "Author is required.";
-  if (!course.category) return "Category is required.";
+function validateFood(food) {
+  if (!food.title) return "Title is required.";
+  if (!food.authorId) return "Author is required.";
+  if (!food.category) return "Category is required.";
   return "";
 }
