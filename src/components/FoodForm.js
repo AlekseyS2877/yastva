@@ -2,7 +2,7 @@ import React from "react";
 import TextInput from "./common/TextInput";
 import PropTypes from "prop-types";
 
-function CourseForm(props) {
+function FoodForm(props) {
   return (
     <form onSubmit={props.onSubmit}>
       <TextInput
@@ -10,7 +10,7 @@ function CourseForm(props) {
         label="Title"
         onChange={props.onChange}
         name="title"
-        value={props.course.title}
+        value={props.food.title}
         error={props.errors.title}
       />
 
@@ -21,7 +21,7 @@ function CourseForm(props) {
             id="author"
             name="authorId"
             onChange={props.onChange}
-            value={props.course.authorId || ""}
+            value={props.food.authorId || ""}
             className="form-control"
           >
             <option value="" />
@@ -39,7 +39,7 @@ function CourseForm(props) {
         label="Category"
         name="category"
         onChange={props.onChange}
-        value={props.course.category}
+        value={props.food.category}
         error={props.errors.category}
       />
 
@@ -48,11 +48,11 @@ function CourseForm(props) {
   );
 }
 
-CourseForm.propTypes = {
-  course: PropTypes.object.isRequired,
+FoodForm.propTypes = {
+  food: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-export default CourseForm;
+export default FoodForm;

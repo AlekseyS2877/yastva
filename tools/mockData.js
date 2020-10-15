@@ -1,31 +1,31 @@
-const courses = [
+const foods = [
   {
     id: 1,
     title: "Макароны Barilla",
-    slug: "makaroni-barilla",
+    token: "makaroni-barilla",
     authorId: 1,
     category: "Паста",
   },
   {
     id: 2,
     title: "Маслины чёрные Iberica",
-    slug: "masliny-chernii-iberica",
+    token: "masliny-chernii-iberica",
     authorId: 1,
     category: "Маслины",
   },
   {
     id: 3,
-    title: "Creating Reusable React Components",
-    slug: "react-creating-reusable-components",
-    authorId: 1,
-    category: "JavaScript",
+    title: "Шафран Sri Lanka Gold",
+    token: "shafran-shri-lanka-gold",
+    authorId: 2,
+    category: "Приправы",
   },
   {
     id: 4,
-    title: "Building a JavaScript Development Environment",
-    slug: "javascript-development-environment",
-    authorId: 1,
-    category: "JavaScript",
+    title: "Пармезан 'Волшебный'",
+    token: "parmesan-volshebnyi",
+    authorId: 3,
+    category: "Сыры",
   },
 ];
 
@@ -35,7 +35,7 @@ const authors = [
   { id: 3, name: "Dan Wahlin" },
 ];
 
-const newCourse = {
+const newFood = {
   id: null,
   title: "",
   authorId: null,
@@ -44,7 +44,7 @@ const newCourse = {
 
 // Using CommonJS style export so we can consume via Node (without using Babel-node)
 module.exports = {
-  newCourse,
-  courses,
+  newFood,
+  foods,
   authors,
 };

@@ -13,14 +13,14 @@ function FoodList(props) {
         </tr>
       </thead>
       <tbody>
-        {props.courses.map((course) => {
+        {props.foods.map((food) => {
           return (
-            <tr key={course.id}>
+            <tr key={food.id}>
               <td>
-                <Link to={"/course/" + course.slug}>{course.title}</Link>
+                <Link to={"/food/" + food.token}>{food.title}</Link>
               </td>
-              <td>{course.authorId}</td>
-              <td>{course.category}</td>
+              <td>{food.authorId}</td>
+              <td>{food.category}</td>
             </tr>
           );
         })}
@@ -30,7 +30,7 @@ function FoodList(props) {
 }
 
 FoodList.propTypes = {
-  courses: PropTypes.arrayOf(
+  foods: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
