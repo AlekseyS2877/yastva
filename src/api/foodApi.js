@@ -18,11 +18,10 @@ export function getFoodBytoken(token) {
 }
 
 export function saveFood(food) {
-  var stringify = require("json-stringify");
   return fetch(baseUrl + (food.id || ""), {
     method: food.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
     headers: { "content-type": "application/json" },
-    body: stringify({
+    body: JSON.stringify({
       ...food,
       // Parse authorId to a number (in case it was sent as a string).
       authorId: parseInt(food.authorId, 10),
