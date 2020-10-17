@@ -24,7 +24,8 @@ const ManageFoodPage = (props) => {
       setFood(foodStore.getFoodByToken(token));
     }
     return () => foodStore.removeChangeListener(onChange);
-  }, [foods.length, props.match.params.token]);
+  }, [foods.length, props.match.params.token]); // at the end: dependency array:
+  // if something in this array has changed, so re-render.
 
   function onChange() {
     setFoods(foodStore.getFoods());
