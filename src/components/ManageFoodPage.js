@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import FoodForm from "./FoodForm";
-import * as foodApi from "../api/foodApi";
+import foodStore from "../stores/foodStore";
 import { toast } from "react-toastify";
+import * as foodActions from "../actions/foodActions";
 
 const ManageFoodPage = (props) => {
   const [errors, setErrors] = useState({});
+  const [foods, setFoods] = useState(foodStore.getFoods());
   const [food, setFood] = useState({
     id: null,
     token: "",
@@ -14,13 +16,19 @@ const ManageFoodPage = (props) => {
   });
 
   useEffect(() => {
+    foodStore.addChangeListener(onChange);
     const token = props.match.params.token; // from the path `/foods/:token`
-    if (token) {
-      // getFoodBytoken returns a promise
-      foodApi.getFoodBytoken(token).then((_food) => setFood(_food));
+    if (foods.length === 0) {
+      foodActions.loadFoods();
+    } else if (token) {
+      setFood(foodStore.getFoodByToken(token));
     }
-  }, [props.match.params.token]); // at the end: dependency array:
-  // if something in this array has changed, so re-render.
+    return () => foodStore.removeChangeListener(onChange);
+  }, [foods.length, props.match.params.token]);
+
+  function onChange() {
+    setFoods(foodStore.getFoods());
+  }
 
   function handleChange({ target }) {
     setFood({
@@ -44,15 +52,15 @@ const ManageFoodPage = (props) => {
   function handleSubmit(event) {
     event.preventDefault();
     if (!formIsValid()) return;
-    foodApi.saveFood(food).then(() => {
+    foodActions.saveFood(food).then(() => {
       props.history.push("/foods");
-      toast.success("Food saved.");
+      toast.success("Яство сохранено.");
     });
   }
 
   return (
     <>
-      <h2>Manage Food</h2>
+      <h2>Редактировать яство</h2>
       <FoodForm
         errors={errors}
         food={food}

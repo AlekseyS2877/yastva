@@ -7,7 +7,7 @@ function FoodForm(props) {
     <form onSubmit={props.onSubmit}>
       <TextInput
         id="title"
-        label="Title"
+        label="Название"
         onChange={props.onChange}
         name="title"
         value={props.food.title}
@@ -15,7 +15,7 @@ function FoodForm(props) {
       />
 
       <div className="form-group">
-        <label htmlFor="author">Author</label>
+        <label htmlFor="author">Производитель</label>
         <div className="field">
           <select
             id="author"
@@ -25,8 +25,9 @@ function FoodForm(props) {
             className="form-control"
           >
             <option value="" />
-            <option value="1">Cory House</option>
-            <option value="2">Scott Allen</option>
+            <option value="1">Barilla</option>
+            <option value="2">Iberica</option>
+            <option value="3">Heinz</option>
           </select>
         </div>
         {props.errors.authorId && (
@@ -36,7 +37,7 @@ function FoodForm(props) {
 
       <TextInput
         id="category"
-        label="Category"
+        label="Категория"
         name="category"
         onChange={props.onChange}
         value={props.food.category}
