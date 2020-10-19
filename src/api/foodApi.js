@@ -5,7 +5,7 @@ export function getFoods() {
   return fetch(baseUrl).then(handleResponse).catch(handleError);
 }
 
-export function getFoodBytoken(token) {
+export function getFoodByToken(token) {
   return fetch(baseUrl + "?token=" + token)
     .then((response) => {
       if (!response.ok) throw new Error("Network response was not ok.");

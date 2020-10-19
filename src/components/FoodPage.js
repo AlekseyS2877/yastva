@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { getFoods } from "../api/foodApi";
-import FoodList from "./FoodList";
 import { Link } from "react-router-dom";
+import foodStore from "../stores/foodStore";
+import FoodList from "./FoodList";
+import { loadFoods, deleteFood } from "../actions/foodActions";
 
 function FoodPage() {
-  const [foods, setFoods] = useState([]);
+  const [foods, setFoods] = useState(foodStore.getFoods());
 
   useEffect(() => {
-    getFoods().then((_foods) => setFoods(_foods));
-  }, []);
+    foodStore.addChangeListener(onChange);
+    if (foods.length === 0) loadFoods();
+    return () => foodStore.removeChangeListener(onChange); // cleanup on unmount
+  }, [foods.length]);
+
+  function onChange() {
+    setFoods(foodStore.getFoods());
+  }
 
   return (
     <>
@@ -16,7 +23,7 @@ function FoodPage() {
       <Link className="btn btn-primary" to="/food">
         Добавить
       </Link>
-      <FoodList foods={foods} />
+      <FoodList foods={foods} deleteFood={deleteFood} />
     </>
   );
 }

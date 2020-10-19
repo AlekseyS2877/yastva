@@ -7,6 +7,7 @@ function FoodList(props) {
     <table className="table">
       <thead>
         <tr>
+          <th>&nbsp;</th>
           <th>Название</th>
           <th>ID</th>
           <th>Категория</th>
@@ -16,6 +17,16 @@ function FoodList(props) {
         {props.foods.map((food) => {
           return (
             <tr key={food.id}>
+              <td>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => {
+                    props.deleteFood(food.id);
+                  }}
+                >
+                  Удалить
+                </button>
+              </td>
               <td>
                 <Link to={"/food/" + food.token}>{food.title}</Link>
               </td>
@@ -30,6 +41,7 @@ function FoodList(props) {
 }
 
 FoodList.propTypes = {
+  deleteFood: PropTypes.func.isRequired,
   foods: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
