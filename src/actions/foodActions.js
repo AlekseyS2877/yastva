@@ -1,31 +1,31 @@
 import dispatcher from "../appDispatcher";
-import * as foodApi from "../api/foodApi";
+import { getGoodsByCategory, delGoods, addNewGoods } from "../api/goodsAPI";
 import actionTypes from "./actionTypes";
 
-export function saveFood(food) {
-  return foodApi.saveFood(food).then((savedFood) => {
-    // Hey dispatcher, go tell all the stores that a food was just created.
-    dispatcher.dispatch({
-      actionType: food.id ? actionTypes.UPDATE_FOOD : actionTypes.CREATE_FOOD,
-      food: savedFood,
-    });
-  });
-}
+const saveFood = async (goods) => {
+   console.log(goods);
+   const savedFood = await addNewGoods(goods);
 
-export function loadFoods() {
-  return foodApi.getFoods().then((foods) => {
-    dispatcher.dispatch({
+   dispatcher.dispatch({
+      actionType: goods.id ? actionTypes.UPDATE_FOOD : actionTypes.CREATE_FOOD,
+      food: savedFood,
+   });
+};
+
+const loadFoods = async () => {
+   const foods = await getGoodsByCategory();
+   dispatcher.dispatch({
       actionType: actionTypes.LOAD_FOODS,
       foods: foods,
-    });
-  });
-}
+   });
+};
 
-export function deleteFood(id) {
-  return foodApi.deleteFood(id).then(() => {
-    dispatcher.dispatch({
+const deleteFood = (id) => {
+   delGoods(id);
+   dispatcher.dispatch({
       actionType: actionTypes.DELETE_FOOD,
       id: id,
-    });
-  });
-}
+   });
+};
+
+export { saveFood, loadFoods, deleteFood };

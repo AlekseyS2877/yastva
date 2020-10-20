@@ -23,7 +23,7 @@ class FoodStore extends EventEmitter {
   }
 
   getFoodByToken(token) {
-    return _foods.find((food) => food.token === token);
+    return _foods.find((food) => food.code === token);
   }
 }
 

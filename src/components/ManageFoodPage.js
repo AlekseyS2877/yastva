@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import * as foodActions from "../actions/foodActions";
 
 const ManageFoodPage = (props) => {
+  console.log(props);
   const [errors, setErrors] = useState({});
   const [foods, setFoods] = useState(foodStore.getFoods());
   const [food, setFood] = useState({

@@ -10,7 +10,7 @@ function FoodForm(props) {
         label="Название"
         onChange={props.onChange}
         name="title"
-        value={props.food.title}
+        value={props.food.name}
         error={props.errors.title}
       />
 
