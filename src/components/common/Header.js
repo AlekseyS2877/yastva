@@ -9,7 +9,7 @@ function Header() {
         Home
       </NavLink>
       {" | "}
-      <NavLink activeStyle={activeStyle} to="/foods">
+      <NavLink activeStyle={activeStyle} to="/allgoods">
         Наши яства
       </NavLink>
       {" | "}

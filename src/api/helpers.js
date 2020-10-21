@@ -3,7 +3,7 @@ import { TextEncoderLite } from "../../node_modules/text-encoder-lite";
 
 const base64Encode = (str) => fromByteArray(new TextEncoderLite().encode(str));
 
-const apiURL = "http://as2877.ddns.net:5984/yastva";
+const apiURL = "http://as2877.ddns.net:5984";
 const headers = {
    "Content-type": "application/json",
    Authorization: `Basic ${base64Encode("admin:matrix-123")}`,

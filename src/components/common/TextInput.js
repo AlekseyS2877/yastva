@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 function TextInput(props) {
   let wrapperClass = "form-group";
@@ -24,18 +23,5 @@ function TextInput(props) {
     </div>
   );
 }
-
-TextInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
-  error: PropTypes.string
-};
-
-TextInput.defaultProps = {
-  error: ""
-};
 
 export default TextInput;
