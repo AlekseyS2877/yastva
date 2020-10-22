@@ -1,10 +1,10 @@
 import dispatcher from "../appDispatcher";
 import actionTypes from "./actionTypes";
 
-const saveGoods = (...params) => {
+const saveGoods = (goods) => {
    dispatcher.dispatch({
-      actionType: params[0] ? actionTypes.GOODS_UPDATE : actionTypes.GOODS_CREATE,
-      fakeGoods: params,
+      actionType: goods.id ? actionTypes.GOODS_UPDATE : actionTypes.GOODS_CREATE,
+      fakeGoods: goods,
    });
 };
 
@@ -14,18 +14,25 @@ const loadGoods = () => {
    });
 };
 
+const loadNewGoods = (count) => {
+   dispatcher.dispatch({
+      actionType: actionTypes.GOODS_NEW_LOAD,
+      count,
+   });
+};
+
 const deleteGoods = (id) => {
    dispatcher.dispatch({
       actionType: actionTypes.GOODS_DELETE,
-      id: id,
+      id,
    });
 };
 
-const getGoodsByCode = (code) => {
+const getGoodsByURL = (code) => {
    dispatcher.dispatch({
-      actionType: actionTypes.GOODS_FIND_BY_CODE,
-      code: code,
+      actionType: actionTypes.GOODS_FIND_BY_URL,
+      code,
    });
 };
 
-export { saveGoods, loadGoods, deleteGoods, getGoodsByCode };
+export { saveGoods, loadGoods, loadNewGoods, deleteGoods, getGoodsByURL };

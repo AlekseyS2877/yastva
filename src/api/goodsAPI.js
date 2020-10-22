@@ -4,7 +4,7 @@ import actionTypes from "../actions/actionTypes";
 
 const getGoods = async () => {
    const result = await getFromAPI(
-      "/yastva/_partition/goods/_design/goods/_view/goodsByCode?include_docs=true"
+      "/yastva/_partition/goods/_design/goods/_view/byCode?include_docs=true"
    );
    const newResult = result.rows.map((eachResult) => eachResult.doc);
    dispatcher.dispatch({
@@ -13,49 +13,53 @@ const getGoods = async () => {
    });
 };
 
-const delGoods = async (goodsID) => {
-   const responseHead = await fetch(`${apiURL}/yastva/${goodsID}`, {
+const getNewGoods = async (count) => {
+   const result = await getFromAPI(
+      `/yastva/_partition/goods/_design/goods/_view/byCode?include_docs=true&limit=${count}&descending=true`
+   );
+   const newResult = result.rows.map((eachResult) => eachResult.doc);
+   dispatcher.dispatch({
+      actionType: actionTypes.GOODS_ARRIVED,
+      goodsList: newResult,
+   });
+};
+
+const getDocHead = async (id) => {
+   const response = await fetch(`${apiURL}/yastva/${id}`, {
       method: "head",
       headers,
    });
 
-   if (!responseHead.ok) {
-      console.log("Абзац...", responseHead);
-      return;
+   if (!response.ok) {
+      // eslint-disable-next-line no-console
+      console.log("Абзац...", response);
+      return "";
    }
 
-   const response = await fetch(
-      `${apiURL}/yastva/${goodsID}?rev=${responseHead.headers.get("ETag").slice(1, -1)}`,
-      {
-         method: "delete",
-         headers,
-      }
-   );
+   return response.headers.get("ETag").slice(1, -1);
+};
 
-   console.log("Типа удалили... ", response);
+const delDoc = async (id) => {
+   const revID = await getDocHead(id);
+   await fetch(`${apiURL}/yastva/${id}?rev=${revID}`, {
+      method: "delete",
+      headers,
+   });
+
    dispatcher.dispatch({
       actionType: actionTypes.GOODS_LOAD,
    });
 };
 
 const updateGoods = async (fakeGoods) => {
-   const response = await fetch(`${apiURL}/yastva/${fakeGoods[0]}`, {
+   const revID = await getDocHead(fakeGoods.id);
+   const response = await fetch(`${apiURL}/yastva/${fakeGoods.id}?rev=${revID}`, {
       method: "put",
       headers,
-      body: JSON.stringify({
-         code: fakeGoods[1],
-         name: fakeGoods[2],
-         categories: [fakeGoods[3]],
-         brand: fakeGoods[4],
-         vendor: fakeGoods[5],
-         prices: { base: fakeGoods[6] },
-         measures: {
-            weight: fakeGoods[7],
-            volume: fakeGoods[8],
-         },
-      }),
+      body: JSON.stringify(fakeGoods),
    });
    if (!response.ok) {
+      // eslint-disable-next-line no-console
       console.log("Абзац...", response);
    }
 
@@ -70,25 +74,39 @@ const addNewGoods = async (fakeGoods) => {
       headers,
    });
    if (!responseUUID.ok) {
+      // eslint-disable-next-line no-console
       console.log("Абзац...", responseUUID);
    }
    const resultUUID = await responseUUID.json();
-   fakeGoods[0] = `goods:${resultUUID.uuids[0]}`;
+   const newFakeGoods = fakeGoods;
+   newFakeGoods.id = `goods:${resultUUID.uuids[0]}`;
 
-   updateGoods(fakeGoods);
+   const response = await fetch(`${apiURL}/yastva/${fakeGoods.id}`, {
+      method: "put",
+      headers,
+      body: JSON.stringify(fakeGoods),
+   });
+   if (!response.ok) {
+      // eslint-disable-next-line no-console
+      console.log("Абзац...", response);
+   }
+
+   dispatcher.dispatch({
+      actionType: actionTypes.GOODS_LOAD,
+   });
 };
 
-const getGoodsByCode = async (code) => {
+const getGoodsByURL = async (url) => {
    const result = await getFromAPI(
-      `/yastva/_partition/goods/_design/goods/_view/goodsByCode?include_docs=true&keys=["${code}"]`
+      `/yastva/_partition/goods/_design/goods/_view/byURL?include_docs=true&keys=["${url}"]`
    );
 
    if (result.rows.length > 0) {
       dispatcher.dispatch({
-         actionType: actionTypes.GOODS_FIND_BY_CODE_ARRIVED,
+         actionType: actionTypes.GOODS_FIND_BY_URL_ARRIVED,
          goods: result.rows[0].doc,
       });
    }
 };
 
-export { getGoods, delGoods, updateGoods, addNewGoods, getGoodsByCode };
+export { getGoods, getNewGoods, delDoc, updateGoods, addNewGoods, getGoodsByURL };

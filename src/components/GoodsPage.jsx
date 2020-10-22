@@ -21,7 +21,7 @@ const GoodsPage = () => {
    return (
       <>
          <h2>Наши яства</h2>
-         <Link className="btn btn-primary" to="/goods">
+         <Link className="btn btn-primary" to="/newGoods">
             Добавить
          </Link>
          <GoodsList goods={goods} />

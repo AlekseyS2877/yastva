@@ -15,6 +15,7 @@ const getFromAPI = async (parURL) => {
       headers,
    });
    if (!response.ok) {
+      // eslint-disable-next-line no-console
       console.log("Абзац...", response);
    }
 
